@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('./partials/head.ejs') %>
+<body>
+    <%- include('./partials/header.ejs') %>
+    <main>
+        <h2>Today's Blogs</h2>
+        <%
+            blogs.forEach(blog=>{
+                %><div class="blog"><h4><%=blog.title%></h4>
+                <p><%=blog.description%></p></div><hr><%
+            })%> 
+    </main>
+    <%- include('./partials/footer.ejs') %>
+
+</body>
+</html>
