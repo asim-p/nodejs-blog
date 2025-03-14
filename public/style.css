@@ -6,6 +6,10 @@ i{
     position: absolute;
     right:1rem;
     cursor:pointer;
+    color: gray;
+}
+i:hover{
+    color:black;
 }
 
 header{
