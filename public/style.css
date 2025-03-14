@@ -54,6 +54,9 @@ nav p:hover{
     outline:none;
     border:none;
     background-color: gray;
+}
+
+nav p:hover a{
     color:white;
 }
 
