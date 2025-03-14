@@ -10,37 +10,20 @@ const app = express();
 const dbURL = 'mongodb+srv://bloguser:blog123@cluster0.hcyoj.mongodb.net/nodejs-blog?retryWrites=true&w=majority&appName=Cluster0';
 
 mongoose.connect(dbURL)
-    .then((result)=> app.listen(3000))
+    .then((result)=> app.listen(8000))
     .catch((err)=>console.log(err));
 
-// blogs
-// const blogs = [
-//     {
-//         title: 'My Travel to Nepal',
-//         description: 'Nepal is a beautiful country with stunning views and nature.'
-//     },
-//     {
-//         title: 'My Experience of skydiving.',
-//         description: 'Skydiving was an awesome activity for me to experience.'
-//     },
-//     {
-//         title: 'Countries I wish to visit',
-//         description: 'I wish to visit many countries like Japan and Czech Republic.'
-//     },
-//     {
-//         title: 'A Day in the Life of a Software Developer',
-//         description: 'Being a software developer involves solving problems and writing code.'
-//     }
-// ];
-
+//middleware
 app.use(express.static('public'));
-
 app.use(morgan('dev'));
+
+//convert form data into usable format
+app.use(express.urlencoded({extended:true}));
 
 app.set('view engine','ejs');
 
 //all get requests
-app.get('/',(req,res)=>{
+app.get('/blogs',(req,res)=>{
     Blog.find().sort({createdAt:-1})
         .then((result)=>{
             res.render('home',{blogs:result,title:'Home'})
@@ -50,19 +33,23 @@ app.get('/',(req,res)=>{
         })
 });
 
-app.get('/blog-add',(req,res)=>{
-    const blog = new Blog({
-        title: 'A Day in the Life of a Software Developer',
-        description: 'Being a software developer involves solving problems and writing code.',
-        content: 'A typical day in the life of a software developer starts with checking emails and messages for any updates or issues. This is followed by a stand-up meeting with the team to discuss progress and plans for the day. The rest of the day is spent writing code, debugging, and collaborating with team members to solve problems. In between, there might be code reviews, design discussions, and learning new technologies. The day ends with a sense of accomplishment and a list of tasks for the next day.'
-    });
-    blog.save()
-        .then((result)=>{res.send(result);})
-        .catch((err)=>{console.log(err)})
-});
+app.get('/blogs/:id',(req,res)=>{
+    const id = req.params.id;
+    Blog.findById(id)
+        .then(result =>{
+            res.render('detail',{title:result.title,blog:result})
+        })
+        .catch(err=>{
+            console.log(err);
+        })
+})
 
 app.get('/home',(req,res)=>{
-    res.redirect('/');
+    res.redirect('/blogs');
+})
+
+app.get('/',(req,res)=>{
+    res.redirect('/blogs');
 })
 
 app.get('/index',(req,res)=>{
@@ -71,6 +58,12 @@ app.get('/index',(req,res)=>{
 
 app.get('/about',(req,res)=>{
     res.render('aboutus',{title:'About US'});
+})
+
+app.post('/',(req,res)=>{
+    newBlog = new Blog(req.body);
+    newBlog.save();
+    res.redirect('/');
 })
 
 app.get('/aboutus',(req,res)=>{
@@ -83,6 +76,15 @@ app.get('/create',(req,res)=>{
 
 app.get('/createblog',(req,res)=>{
     res.redirect('/create');
+})
+
+app.delete('/blogs/:id',(req,res)=>{
+    const id = req.params.id;
+    Blog.findByIdAndDelete(id)
+        .then(result =>{
+            res.json({redirect:'/blogs'})
+        })
+        .catch(err => {console.log(err)});
 })
 
 app.use((req,res)=>{

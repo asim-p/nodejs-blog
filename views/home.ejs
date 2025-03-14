@@ -6,10 +6,19 @@
     <main>
         <h2>Today's Blogs</h2>
         <%
+        if (blogs.length > 0) {
             blogs.forEach(blog=>{
-                %><div class="blog"><h4><%=blog.title%></h4>
-                <p><%=blog.description%></p></div><hr><%
-            })%> 
+                %>
+                <a class="single-blog" href="/blogs/<%= blog._id %>">
+                    <h4><%=blog.title%></h4>
+                    <p><%=blog.description%></p>
+                </a>
+                <hr>
+                <%
+                    })} else {
+                %>
+                <p>There are no blogs here :( </p>
+                <% } %> 
     </main>
     <%- include('./partials/footer.ejs') %>
 
