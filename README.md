@@ -6,10 +6,10 @@ A simple blog application built with Node.js, Express, and MongoDB. This project
 I followed a tutorial to create this project as part of my learning journey.
 
 ## Features
-- View all blog posts on the homepage.
-- Create a new blog post.
-- View details of a specific blog post.
-- Delete a blog post.
+- 🏠 View all blog posts on the homepage
+- 📝 Create a new blog post
+- 🔍 View details of a specific blog post
+- ❌ Delete a blog post
 
 ## Technologies Used
 - **Backend**: Node.js, Express.js
