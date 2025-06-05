@@ -4,14 +4,17 @@ const morgan = require('morgan');
 const mongoose = require('mongoose');
 const blogRoutes = require('./routes/blogRoutes.js');
 const blogRedirects = require('./routes/redirects.js');
+require('dotenv').config();
+
+const port = process.env.PORT;
+const dbURL = process.env.DB_URL;
 
 //create instance of an app
 const app = express();
 
-const dbURL = 'mongodb+srv://bloguser:blog123@cluster0.hcyoj.mongodb.net/nodejs-blog?retryWrites=true&w=majority&appName=Cluster0';
 
 mongoose.connect(dbURL)
-    .then((result)=> app.listen(8000))
+    .then((result)=> app.listen(port))
     .catch((err)=>console.log(err));``
 
 //middleware
