@@ -1,4 +1,4 @@
-# NodeJS Blog
+# MongoBlog
 
 A simple blog application built with Node.js, Express, and MongoDB. This project allows users to create, view, and delete blog posts.
 
